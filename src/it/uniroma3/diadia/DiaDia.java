@@ -1,6 +1,6 @@
 package it.uniroma3.diadia;
 
-import java.util.Scanner;
+import it.uniroma3.diadia.IOConsole.IOConsole;
 import it.uniroma3.diadia.ambienti.Stanza;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 
@@ -37,14 +37,11 @@ public class DiaDia {
 
 	public void gioca() {
 		String istruzione; 
-		Scanner scannerDiLinee;
 
-		System.out.println(MESSAGGIO_BENVENUTO);
-		scannerDiLinee = new Scanner(System.in);		
+		IOConsole.mostroMessaggio(MESSAGGIO_BENVENUTO);		
 		do		
-			istruzione = scannerDiLinee.nextLine();
+			istruzione = IOConsole.leggiRiga();
 		while (!processaIstruzione(istruzione));
-		scannerDiLinee.close();
 	}   
 
 
@@ -68,14 +65,14 @@ public class DiaDia {
 		else if (comandoDaEseguire.getNome().equals("prendi"))
 			this.prendi(comandoDaEseguire.getParametro());
 		else
-			System.out.println("Comando sconosciuto");
+			IOConsole.mostroMessaggio("Comando sconosciuto");
 		if (this.partita.vinta()) {
-			System.out.println("Hai vinto!");
+			IOConsole.mostroMessaggio("Hai vinto!");
 			return true;
 		} 
 		if (this.partita.isFinita())
 		{
-			System.out.println("Non hai più CFU!");
+			IOConsole.mostroMessaggio("Non hai più CFU!");
 		}
 			return false;
 	}   
@@ -87,8 +84,8 @@ public class DiaDia {
 	 */
 	private void aiuto() {
 		for(int i=0; i< elencoComandi.length; i++) 
-			System.out.print(elencoComandi[i]+" ");
-		System.out.println();
+			IOConsole.mostroMessaggio(elencoComandi[i]+" ");
+		IOConsole.mostroMessaggio(" ");
 	}
 
 	/**
@@ -97,16 +94,16 @@ public class DiaDia {
 	 */
 	private void vai(String direzione) {
 		if(direzione==null)
-			System.out.println("Dove vuoi andare ?");
+			IOConsole.mostroMessaggio("Dove vuoi andare ?");
 		Stanza prossimaStanza = this.partita.getStanzaCorrente().getStanzaAdiacente(direzione);
 		if (prossimaStanza == null)
-			System.out.println("Direzione inesistente");
+			IOConsole.mostroMessaggio("Direzione inesistente");
 		else {
 			this.partita.getLabirinto().setStanzaCorrente(prossimaStanza);
 			this.partita.getGiocatore().decrementaCfu();
 		}
-		System.out.println(partita.getStanzaCorrente().getDescrizione());
-		System.out.println("CFU: " + this.partita.getGiocatore().getCfu());
+		IOConsole.mostroMessaggio(partita.getStanzaCorrente().getDescrizione());
+		IOConsole.mostroMessaggio("CFU: " + this.partita.getGiocatore().getCfu());
 	}
 	/**
 	 * Posi l'oggetto in una stanza
@@ -114,17 +111,17 @@ public class DiaDia {
 	 */
 	private void posa(String oggetto) {
 		if (oggetto == null)
-			System.out.println("Oggetto non specificato, riprova");
+			IOConsole.mostroMessaggio("Oggetto non specificato, riprova");
 		Attrezzo attrezzoDaPosare = partita.getBorsa().getAttrezzo(oggetto);
 		if (attrezzoDaPosare == null)
 		{
-			System.out.println("Non possiedi il seguente oggetto :" + oggetto);
+			IOConsole.mostroMessaggio("Non possiedi il seguente oggetto :" + oggetto);
 		}
 		else
 		{
 			partita.getStanzaCorrente().addAttrezzo(attrezzoDaPosare);
 			partita.getBorsa().removeAttrezzo(oggetto);
-			System.out.println("Hai posato il seguente oggetto: " + attrezzoDaPosare);
+			IOConsole.mostroMessaggio("Hai posato il seguente oggetto: " + attrezzoDaPosare);
 		}
 	}
 	/**
@@ -133,26 +130,26 @@ public class DiaDia {
 	 */
 	private void prendi(String oggetto) {
 		if (oggetto == null)
-			System.out.println("Oggetto non specificato, riprova");
+			IOConsole.mostroMessaggio("Oggetto non specificato, riprova");
 		// controllo se ESISTE l'oggetto nella stanza 
 		if (!partita.getStanzaCorrente().hasAttrezzo(oggetto))
-			System.out.println("Non è presente il seguente oggetto nella stanza: " + oggetto);
+			IOConsole.mostroMessaggio("Non è presente il seguente oggetto nella stanza: " + oggetto);
 		// controllo se ho abbastanza spazio, se non ce n'è abbastanza non te lo fa prendere, a meno che non lo fai tu
 		else if ((partita.getBorsa().getPeso() + partita.getStanzaCorrente().getAttrezzo(oggetto).getPeso()) <= partita.getBorsa().getPesoMax())
 		{
 			Attrezzo attrezzoDaPrendere = partita.getStanzaCorrente().getAttrezzo(oggetto);
 			partita.getBorsa().addAttrezzo(attrezzoDaPrendere);
 			partita.getStanzaCorrente().removeAttrezzo(attrezzoDaPrendere);
-			System.out.println("Hai preso " + attrezzoDaPrendere);
+			IOConsole.mostroMessaggio("Hai preso " + attrezzoDaPrendere);
 		}
 		else
-			System.out.println("Non hai abbastanza spazio, libera peso per prendere il seguente oggetto: " + oggetto);
+			IOConsole.mostroMessaggio("Non hai abbastanza spazio, libera peso per prendere il seguente oggetto: " + oggetto);
 	}
 	/**
 	 * Comando "Fine".
 	 */
 	private void fine() {
-		System.out.println("Grazie di aver giocato!");  // si desidera smettere
+		IOConsole.mostroMessaggio("Grazie di aver giocato!");  // si desidera smettere
 	}
 
 	public static void main(String[] argc) {

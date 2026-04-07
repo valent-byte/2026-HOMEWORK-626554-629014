@@ -21,15 +21,18 @@ public class Comando {
     private String parametro;
 
     public Comando(String istruzione) {
-		try (Scanner scannerDiParole = new Scanner(istruzione)) {
-			// prima parola: nome del comando
-			if (scannerDiParole.hasNext())
-				this.nome = scannerDiParole.next(); 
+        if (istruzione != null && !istruzione.trim().isEmpty()) {
+            
+            String[] parole = istruzione.trim().split("\\s+");
 
-			// seconda parola: eventuale parametro
-			if (scannerDiParole.hasNext())
-				this.parametro = scannerDiParole.next();
-		}
+            if (parole.length > 0) {
+                this.nome = parole[0];
+            }
+
+            if (parole.length > 1) {
+                this.parametro = parole[1];
+            }
+        }
     }
 
     public String getNome() {
