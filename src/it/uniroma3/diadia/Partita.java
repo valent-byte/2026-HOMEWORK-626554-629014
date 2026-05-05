@@ -64,9 +64,11 @@ public class Partita {
 	 * @return vero se partita finita
 	 */
 	public boolean isFinita() {
-		return finita || vinta() || (giocatore.getCfu() == 0);
+		return finita || vinta();
 	}
-
+	public boolean giocatoreIsVivo() {
+		return (giocatore.getCfu() != 0);
+	}
 	/**
 	 * Imposta la partita come finita
 	 *

@@ -25,19 +25,19 @@ class StanzaTest {
 
 	@Test
 	public void testCercoAttrezzo() {
-		assertEquals(true, stanzaTest.hasAttrezzo("Bastone"));
-		assertEquals(false, stanzaTest.hasAttrezzo("Cucchiaio"));
+		assertTrue(stanzaTest.hasAttrezzo("Bastone"));
+		assertFalse(stanzaTest.hasAttrezzo("Cucchiaio"));
 	}
 	
 	@Test
 	public void testEliminoAttrezzo() {
-		assertEquals(true, stanzaTest.removeAttrezzo(bastone));
-		assertEquals(false, stanzaTest.removeAttrezzo(carta));
+		assertTrue(stanzaTest.removeAttrezzo(bastone));
+		assertFalse(stanzaTest.removeAttrezzo(carta));
 	}
 	@Test
 	public void testRichiedoStanzaAdiacente() {
 		assertEquals(stanzaNord, stanzaTest.getStanzaAdiacente("nord"));
-		assertEquals(null, stanzaTest.getStanzaAdiacente("ovest"));
+		assertNull(stanzaTest.getStanzaAdiacente("ovest"));
 		
 	}
 	

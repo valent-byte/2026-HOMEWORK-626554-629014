@@ -1,8 +1,5 @@
 package it.uniroma3.diadia;
 
-
-import java.util.Scanner;
-
 /**
  * Questa classe modella un comando.
  * Un comando consiste al piu' di due parole:
