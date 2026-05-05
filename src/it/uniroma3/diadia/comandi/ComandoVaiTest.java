@@ -5,7 +5,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import it.uniroma3.diadia.IO;
 import it.uniroma3.diadia.Partita;
+import it.uniroma3.diadia.IOConsole.IOConsole;
 import it.uniroma3.diadia.ambienti.Stanza;
 
 class ComandoVaiTest {
@@ -14,6 +16,8 @@ class ComandoVaiTest {
 	private Stanza stanzaNord;
 	private Stanza stanzaVincenteSud;
 	private ComandoVai comando;
+	private IO io;
+	
 	@BeforeEach
 	public void setUp() {
 		partita = new Partita();
@@ -24,7 +28,10 @@ class ComandoVaiTest {
 		stanzaNord.impostaStanzaAdiacente("sud", stanzaTest);
 		stanzaTest.impostaStanzaAdiacente("sud", stanzaVincenteSud);
 		partita.getLabirinto().setStanzaCorrente(stanzaTest);
+		partita.getLabirinto().setStanzaVincente(stanzaVincenteSud);
 		comando = new ComandoVai();
+		io = new IOConsole();
+		comando.setIo(io);
 	}
 	@Test
 	void testStanzaVincente() {
